@@ -36,7 +36,7 @@ export default class App extends Component {
       animationValue,
       {
         toValue: 1,
-        duration: 500, //  friction: 10, velocity: 3,
+        duration: 500, // friction: 10, velocity: 3,
       },
     ).start();
   }
@@ -47,7 +47,7 @@ export default class App extends Component {
       animationValue,
       {
         toValue: 0,
-        duration: 500,
+        duration: 500, // friction: 10, velocity: 3,
         easing: Easing.ease,
       },
     ).start(() => {
@@ -167,7 +167,7 @@ export default class App extends Component {
       >
         <Text
           style={{
-             color: 'white', fontSize: 36, fontFamily: 'Playfair Display',
+             color: 'rgb(230, 230, 230)', fontSize: 36, fontFamily: 'Playfair Display',
           }}
         >
           {itemData.title}
@@ -185,7 +185,6 @@ export default class App extends Component {
         const { fx, fy, width, height, px, py } = currentViewInfo;
 
         return (
-          // Контейнер раскрытой карточки.
           <View
             style={{
               position: 'absolute',
@@ -193,43 +192,47 @@ export default class App extends Component {
               left: 0,
               height: '100%',
               width: '100%',
-              // backgroundColor: 'black',
             }}
           >
             <TouchableOpacity
               activeOpacity={1}
               onPress={this.closeCard}
             >
-              <View style={{ flex: 1 }}>
+              <Animated.View style={{ flex: 1 }}>
                 <Animated.Image
-                  // resizeMode={'contain'}
                   source={currentCardData.img}
-                  style={[
-                    {
-                      position: 'absolute',
-                      left: px,
-                      width: width,
-                      // top: py,
-                      // height: height,
-                      height: animationValue.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [height, screenHeight],
-                      }),
-                      // height: 200,
-                      top: animationValue.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [py, 0],
-                      }),
-                    },
-                    // this.state.cardStyle,
-                  ]}
+                  style={{
+                    position: 'absolute',
+                    left: px,
+                    width: width,
+                    height: animationValue.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [height, screenHeight],
+                    }),
+                    top: animationValue.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [py, 0],
+                    }),
+                  }}
                 />
+                {/* <View style={{ height: 60, alignSelf: 'flex-end', top: 0, left: 0, backgroundColor: 'white' }}>
+                  <View style={{ height: 25, width: '60%', backgroundColor: 'green', }}>
+                  </View>
+                  <View style={{ flex: 1, backgroundColor: 'red' }}>
+                    <View>
+
+                    </View>
+                    <View>
+
+                    </View>
+                  </View>
+                </View> */}
                 <Animated.View
                   style={{
                     position: 'absolute',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     height: animationValue.interpolate({
                       inputRange: [0, 1],
                       outputRange: [height, 70],
@@ -243,13 +246,13 @@ export default class App extends Component {
                 >
                   <Text
                     style={{
-                      color: 'white', fontSize: 36, fontFamily: 'Playfair Display',
+                      color: 'rgb(230, 230, 230)', fontSize: 36, fontFamily: 'Playfair Display',
                     }}
                   >
                     {currentCardData.title}
                   </Text>
                 </Animated.View>
-              </View>
+              </Animated.View>
             </TouchableOpacity>
           </View>
         );
