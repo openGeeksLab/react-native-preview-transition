@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
   TouchableOpacity,
-  Dimensions,
+  StyleSheet,
   ScrollView,
-  Platform,
   Animated,
+  Easing,
   Image,
   Text,
   View,
@@ -12,7 +12,7 @@ import {
 
 import styles from './styles';
 
-import { cardHeigth, cardWidth } from './values';
+import { cardHeigth, cardWidth, screenHeight } from './values';
 
 export default class App extends Component {
   static defaultProps = {
@@ -23,40 +23,45 @@ export default class App extends Component {
     super();
     this.state = {
       currentIndex: null,
+      currentViewInfo: {},
       animationValue: new Animated.Value(0),
     };
     this.cardRef = [];
   }
 
-  configureOpenStyle = () => {
-    const { animationValue, currentViewInfo } = this.state;
-    /*
-      currentViewInfo: {
-        fx, fy, width, height, px, py,
-      }
-    */
-    return {
-      height: animationValue.interpoalte({
-        inputRange: [0, 1],
-        outputRange: []
-      }),
-      width: '',
+  startOpenAnimation = () => {
+    const { animationValue } = this.state;
 
-    }
-    /*
-      0.0
+    Animated.timing(
+      animationValue,
+      {
+        toValue: 1,
+        duration: 500, //  friction: 10, velocity: 3,
+      },
+    ).start();
+  }
 
-      300 - height of card
-
-      height
-    */
-
+  startCloseAnimation = (callback) => {
+    const { animationValue } = this.state;
+    Animated.timing(
+      animationValue,
+      {
+        toValue: 0,
+        duration: 500,
+        easing: Easing.ease,
+      },
+    ).start(() => {
+      if (callback) callback();
+    });
   }
 
   closeCard = () => {
     const { currentIndex } = this.state;
     if (currentIndex !== null) {
-      this.setState({ currentIndex: null });
+      this.startCloseAnimation(() => this.setState({
+        currentIndex: null,
+        currentViewInfo: {},
+      }));
     }
   }
 
@@ -67,12 +72,20 @@ export default class App extends Component {
       const currentCardData = data[index];
       if (currentCardData) {
         cardReference.measure((fx, fy, width, height, px, py) => {
-          this.setState({
-            currentIndex: index,
-            currentViewInfo: {
-              fx, fy, width, height, px, py,
+          this.setState(
+            {
+              currentIndex: index,
+              currentViewInfo: {
+                fx,
+                fy,
+                width,
+                height,
+                px,
+                py,
+              },
             },
-          });
+            this.startOpenAnimation,
+          );
         });
       }
     }
@@ -81,10 +94,6 @@ export default class App extends Component {
   onOpenCard = (screenIndex) => {
     this.openCard(screenIndex);
   }
-
-  // animationStart = () => {
-  //
-  // }
 
   renderImage = (source) => {
     if (source) {
@@ -101,7 +110,7 @@ export default class App extends Component {
     }
     return (
       <View
-        style={{ flex: 1, backgroundColor: 'red' }}
+        style={{ flex: 1, backgroundColor: 'black' }}
       />
     );
   }
@@ -113,7 +122,11 @@ export default class App extends Component {
 
   renderCardView = (itemData, itemIndex) => {
     return (
-      <TouchableOpacity onPress={() => this.onOpenCard(itemIndex)}>
+      <TouchableOpacity
+        activeOpacity={1}
+        key={`card-view-${itemIndex}`}
+        onPress={() => this.onOpenCard(itemIndex)}
+      >
         <View
           style={[
             styles.cardContainer,
@@ -122,7 +135,6 @@ export default class App extends Component {
               width: cardWidth,
             },
           ]}
-          key={`card-view-${itemIndex}`}
           ref={(viewRef) => {
             this.cardRef[`card-ref-${itemIndex}`] = viewRef;
           }}
@@ -130,6 +142,13 @@ export default class App extends Component {
           {this.renderImage(itemData.img)}
           {this.renderCardTitle(itemData, itemIndex)}
         </View>
+        <View
+          style={{
+            height: StyleSheet.hairlineWidth,
+            width: '100%',
+            backgroundColor: 'white',
+          }}
+        />
       </TouchableOpacity>
     );
   }
@@ -148,7 +167,7 @@ export default class App extends Component {
       >
         <Text
           style={{
-            color: 'white',
+             color: 'white', fontSize: 36, fontFamily: 'Playfair Display',
           }}
         >
           {itemData.title}
@@ -159,11 +178,12 @@ export default class App extends Component {
 
   renderFullCard = () => {
     const { data } = this.props;
-    const { currentIndex, currentViewInfo } = this.state;
+    const { animationValue, currentIndex, currentViewInfo } = this.state;
     if (currentIndex !== undefined) {
       const currentCardData = data[currentIndex];
       if (currentCardData) {
         const { fx, fy, width, height, px, py } = currentViewInfo;
+
         return (
           // Контейнер раскрытой карточки.
           <View
@@ -173,26 +193,64 @@ export default class App extends Component {
               left: 0,
               height: '100%',
               width: '100%',
-              backgroundColor: 'black',
+              // backgroundColor: 'black',
             }}
           >
-            <TouchableOpacity onPress={this.closeCard}>
-              <View>
-                <Image
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={this.closeCard}
+            >
+              <View style={{ flex: 1 }}>
+                <Animated.Image
                   // resizeMode={'contain'}
                   source={currentCardData.img}
+                  style={[
+                    {
+                      position: 'absolute',
+                      left: px,
+                      width: width,
+                      // top: py,
+                      // height: height,
+                      height: animationValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [height, screenHeight],
+                      }),
+                      // height: 200,
+                      top: animationValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [py, 0],
+                      }),
+                    },
+                    // this.state.cardStyle,
+                  ]}
+                />
+                <Animated.View
                   style={{
                     position: 'absolute',
-                    top: py,
-                    left: px,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    height: animationValue.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [height, 70],
+                    }),
                     width: width,
-                    height: height,
+                    top: animationValue.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [py, 0],
+                    }),
                   }}
-                />
+                >
+                  <Text
+                    style={{
+                      color: 'white', fontSize: 36, fontFamily: 'Playfair Display',
+                    }}
+                  >
+                    {currentCardData.title}
+                  </Text>
+                </Animated.View>
               </View>
             </TouchableOpacity>
-            {/* <View>
-            </View> */}
           </View>
         );
       }
@@ -209,8 +267,8 @@ export default class App extends Component {
           orientation='vertical'
         >
           {this.renderCards()}
-          {this.renderFullCard(currentIndex)}
         </ScrollView>
+        {this.renderFullCard(currentIndex)}
       </View>
     );
   }
