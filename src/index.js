@@ -26,23 +26,30 @@ export default class App extends Component {
       currentViewInfo: {},
       animationValue: new Animated.Value(0),
     };
+    this.animationGoing = false;
     this.cardRef = [];
   }
 
   startOpenAnimation = () => {
     const { animationValue } = this.state;
-
-    Animated.timing(
-      animationValue,
-      {
-        toValue: 1,
-        duration: 500, // friction: 10, velocity: 3,
-      },
-    ).start();
+    if (!this.animationGoing) {
+      this.animationGoing = true;
+      Animated.timing(
+        animationValue,
+        {
+          toValue: 1,
+          duration: 500, // friction: 10, velocity: 3,
+        },
+      ).start(() => {
+        this.forceUpdate();
+        this.animationGoing = false;
+      });
+    }
   }
 
   startCloseAnimation = (callback) => {
     const { animationValue } = this.state;
+
     Animated.timing(
       animationValue,
       {
@@ -128,27 +135,13 @@ export default class App extends Component {
         onPress={() => this.onOpenCard(itemIndex)}
       >
         <View
-          style={[
-            styles.cardContainer,
-            {
-              height: cardHeigth,
-              width: cardWidth,
-            },
-          ]}
-          ref={(viewRef) => {
-            this.cardRef[`card-ref-${itemIndex}`] = viewRef;
-          }}
+          style={styles.cardContainer}
+          ref={(viewRef) => { this.cardRef[`card-ref-${itemIndex}`] = viewRef; }}
         >
           {this.renderImage(itemData.img)}
           {this.renderCardTitle(itemData, itemIndex)}
         </View>
-        <View
-          style={{
-            height: StyleSheet.hairlineWidth,
-            width: '100%',
-            backgroundColor: 'white',
-          }}
-        />
+        <View style={styles.cardDivider} />
       </TouchableOpacity>
     );
   }
@@ -165,11 +158,7 @@ export default class App extends Component {
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
         }}
       >
-        <Text
-          style={{
-             color: 'rgb(230, 230, 230)', fontSize: 36, fontFamily: 'Playfair Display',
-          }}
-        >
+        <Text style={styles.titleText}>
           {itemData.title}
         </Text>
       </View>
@@ -194,66 +183,61 @@ export default class App extends Component {
               width: '100%',
             }}
           >
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={this.closeCard}
+            <Animated.View
+              style={{
+                position: 'absolute',
+                left: px,
+                width: width,
+                height: animationValue.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [height, screenHeight],
+                }),
+                top: animationValue.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [py, 0],
+                }),
+              }}
             >
-              <Animated.View style={{ flex: 1 }}>
-                <Animated.Image
-                  source={currentCardData.img}
-                  style={{
-                    position: 'absolute',
-                    left: px,
-                    width: width,
-                    height: animationValue.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [height, screenHeight],
-                    }),
-                    top: animationValue.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [py, 0],
-                    }),
-                  }}
-                />
-                {/* <View style={{ height: 60, alignSelf: 'flex-end', top: 0, left: 0, backgroundColor: 'white' }}>
-                  <View style={{ height: 25, width: '60%', backgroundColor: 'green', }}>
-                  </View>
-                  <View style={{ flex: 1, backgroundColor: 'red' }}>
-                    <View>
-
-                    </View>
-                    <View>
-
-                    </View>
-                  </View>
-                </View> */}
-                <Animated.View
-                  style={{
-                    position: 'absolute',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    height: animationValue.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [height, 70],
-                    }),
-                    width: width,
-                    top: animationValue.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [py, 0],
-                    }),
-                  }}
-                >
-                  <Text
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{ flex: 1 }}
+                onPress={this.closeCard}
+              >
+                <View style={{ flex: 1 }}>
+                  <Animated.Image
+                    source={currentCardData.img}
                     style={{
-                      color: 'rgb(230, 230, 230)', fontSize: 36, fontFamily: 'Playfair Display',
+                      position: 'absolute',
+                      left: 0,
+                      width: width,
+                      height: animationValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [height, screenHeight],
+                      }),
+                      top: 0,
+                    }}
+                  />
+                  <Animated.View
+                    style={{
+                      position: 'absolute',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                      height: animationValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [height, 70],
+                      }),
+                      width: width,
+                      top: 0,
                     }}
                   >
-                    {currentCardData.title}
-                  </Text>
-                </Animated.View>
-              </Animated.View>
-            </TouchableOpacity>
+                    <Text style={styles.titleText}>
+                      {currentCardData.title}
+                    </Text>
+                  </Animated.View>
+                </View>
+              </TouchableOpacity>
+            </Animated.View>
           </View>
         );
       }
