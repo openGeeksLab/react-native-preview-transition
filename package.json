@@ -1,6 +1,6 @@
 {
   "name": "react-native-preview-transition",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "React Native component for creating animated, expanding collection",
   "main": "src/index.js",
   "keywords": [
