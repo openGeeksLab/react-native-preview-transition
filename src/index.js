@@ -44,7 +44,7 @@ class PreviewTransition extends Component {
     animationDuration: 500,
     backgroundColor: '#333',
     cardDividerColor: 'rgb(255, 255, 255)',
-    titleContainerColor: 'rgba(0, 0, 0, 0.5)',
+    titleContainerColor: 'rgba(100, 255, 0, 0.5)',
   }
 
   constructor() {
