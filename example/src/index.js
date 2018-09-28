@@ -88,6 +88,7 @@ export default class App extends Component {
           cardHeaderHeight={70}
           animationDuration={500}
           backgroundColor={'#333'}
+          titleContainerColor={'rgba(0, 0, 0, 0.5)'}
           cardDividerColor={'rgb(255, 255, 255)'}
           titleTextStyle={styles.cardTitleCustomStyle}
         />

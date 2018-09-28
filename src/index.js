@@ -31,6 +31,7 @@ class PreviewTransition extends Component {
     animationDuration: PropTypes.number,
     backgroundColor: PropTypes.string,
     cardDividerColor: PropTypes.string,
+    titleContainerColor: PropTypes.string,
   }
 
   static defaultProps = {
@@ -43,6 +44,7 @@ class PreviewTransition extends Component {
     animationDuration: 500,
     backgroundColor: '#333',
     cardDividerColor: 'rgb(255, 255, 255)',
+    titleContainerColor: 'rgba(0, 0, 0, 0.5)',
   }
 
   constructor() {
@@ -171,9 +173,14 @@ class PreviewTransition extends Component {
   }
 
   renderCardTitle = (itemData, itemIndex) => {
-    const { titleTextStyle } = this.props;
+    const { titleTextStyle, titleContainerColor } = this.props;
     return (
-      <View style={styles.closedCardTitleContainer}>
+      <View
+        style={[
+          styles.closedCardTitleContainer,
+          { backgroundColor: titleContainerColor },
+        ]}
+      >
         <Text style={[styles.titleText, titleTextStyle]}>
           {itemData.title}
         </Text>
@@ -189,7 +196,11 @@ class PreviewTransition extends Component {
   renderHeaderBar = (cardData, index, viewMeasureInfo) => {
     const { animationValue } = this.state;
     const { height, width } = viewMeasureInfo;
-    const { cardHeaderHeight, titleTextStyle } = this.props;
+    const {
+      titleTextStyle,
+      cardHeaderHeight,
+      titleContainerColor,
+    } = this.props;
     return (
       <Animated.View
         style={[
@@ -197,6 +208,7 @@ class PreviewTransition extends Component {
           {
             width,
             height: animationValue.interpolate({ inputRange, outputRange: [height, cardHeaderHeight] }),
+            backgroundColor: titleContainerColor,
           },
         ]}
       >
