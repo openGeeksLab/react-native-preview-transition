@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
   ScrollView,
@@ -19,12 +20,24 @@ import {
   fullCardHeightInterpolation,
 } from './values';
 
-class App extends Component {
+class PreviewTransition extends Component {
+  static propTypes = {
+    data: PropTypes.array.isRequired,
+
+    titleTextStyle: PropTypes.object,
+    renderBottomBar: PropTypes.func,
+
+    cardHeaderHeight: PropTypes.number,
+    animationDuration: PropTypes.number,
+    backgroundColor: PropTypes.string,
+    cardDividerColor: PropTypes.string,
+  }
+
   static defaultProps = {
     data: [],
+
     titleTextStyle: {},
     renderBottomBar: () => {},
-
 
     cardHeaderHeight: 70,
     animationDuration: 500,
@@ -168,12 +181,12 @@ class App extends Component {
     );
   }
 
-  renderBottomBar = (cardData, animationValue) => {
+  renderBottomBar = (cardData, index, animationValue) => {
     const { renderBottomBar } = this.props;
-    return renderBottomBar(cardData, animationValue);
+    return renderBottomBar(cardData, index, animationValue);
   }
 
-  renderHeaderBar = (cardData, viewMeasureInfo) => {
+  renderHeaderBar = (cardData, index, viewMeasureInfo) => {
     const { animationValue } = this.state;
     const { height, width } = viewMeasureInfo;
     const { cardHeaderHeight, titleTextStyle } = this.props;
@@ -241,8 +254,8 @@ class App extends Component {
                       },
                     ]}
                   />
-                  {this.renderHeaderBar(currentCardData, currentViewInfo)}
-                  {this.renderBottomBar(currentCardData, animationValue)}
+                  {this.renderHeaderBar(currentCardData, currentIndex, currentViewInfo)}
+                  {this.renderBottomBar(currentCardData, currentIndex, animationValue)}
                 </View>
               </TouchableOpacity>
             </Animated.View>
@@ -270,5 +283,5 @@ class App extends Component {
   }
 }
 
-export default App;
+export default PreviewTransition;
 export const values = { cardWidth, inputRange, cardHeigth };

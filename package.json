@@ -1,0 +1,32 @@
+{
+  "name": "react-native-preview-transition",
+  "version": "1.0.0",
+  "description": "React Native component for creating animated, expanding collection",
+  "main": "src/index.js",
+  "keywords": [
+    "react",
+    "react-native",
+    "react-native-component",
+    "preview-transition",
+    "preview",
+    "ios",
+    "android"
+  ],
+  "dependencies": {
+    "prop-types": "^15.6.0"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-native": "^0.50.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openGeeksLab/react-native-preview-transition.git"
+  },
+  "author": "openGeeksLab",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openGeeksLab/react-native-preview-transition/issues"
+  },
+  "homepage": "https://openGeeksLab.com"
+}
