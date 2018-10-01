@@ -53,6 +53,8 @@
   />
 </a>
 
+<img src="https://github.com/openGeeksLab/docs/blob/master/preview-transition.gif" data-canonical-src="https://github.com/openGeeksLab/docs/blob/master/preview-transition.gif" width="50%" height="50%"style="max-width:100%;">
+
 # react-native-preview-transition
 
 # About
@@ -77,6 +79,21 @@ Just run:
 - npm i --save react-native-preview-transition
 
 ## Basic usage
+The Library needs to pass a data property that contains an array of objects with the img and title fields.
+img - is the picture which needs to display.
+title - is the name displayed in the header.
+For more detailed library work settings, you can transfer next properties: renderBottomBar, cardHeaderHeight, animationDuration, backgroundColor, cardDividerColor, titleTextStyle.
+
+```renderBottomBar``` - is the function that returns a component that will be displayed at the bottom of the window  
+```cardHeaderHeight``` - is the height of the opened card's header  
+```animationDuration``` - is the speed of the animation, opening, and closing of the card  
+```backgroundColor``` - is the color of the background of the list of cards  
+```cardDividerColor``` - is the color of the divider between the cards  
+```titleTextStyle``` - is the style of the header text  
+```titleContainerColor``` - is the color of the container that contains the name  
+
+The full project using the library is located <a href="https://github.com/openGeeksLab/react-native-preview-transition/tree/develop/example">here</a>.
+
 ```javascript
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
