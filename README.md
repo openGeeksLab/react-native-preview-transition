@@ -103,7 +103,7 @@ The full project using the library is located <a href="https://github.com/openGe
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import PreviewTransition from './components/preview-transition/src';
+import PreviewTransition from 'react-native-preview-transition';
 
 import IMAGE_BERTHE from './res/img/berthe_morisot.jpg';
 import IMAGE_CLAUDE from './res/img/ClaudeMonet.jpg';
