@@ -54,7 +54,7 @@
 </a>
 
 <img
-  src="https://github.com/openGeeksLab/docs/blob/master/preview-transition.gif" data-canonical-src="https://github.com/openGeeksLab/docs/blob/master/preview-transition.gif"
+  src="https://raw.githubusercontent.com/openGeeksLab/docs/master/preview-transition.gif" data-canonical-src="https://raw.githubusercontent.com/openGeeksLab/docs/master/preview-transition.gif"
   width="50%"
   height="50%"
   style="max-width:100%;"
