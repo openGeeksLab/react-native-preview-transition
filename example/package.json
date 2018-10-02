@@ -10,7 +10,7 @@
     "@babel/runtime": "^7.0.0",
     "react": "16.5.0",
     "react-native": "0.57.1",
-    "react-native-preview-transition": "git+https://github.com/openGeeksLab/react-native-preview-transition.git#develop",
+    "react-native-preview-transition": "^1.0.0",
     "react-native-vector-icons": "^5.0.0"
   },
   "devDependencies": {

@@ -4059,7 +4059,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -4126,9 +4126,11 @@ react-is@^16.5.0:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.5.2.tgz#e2a7b7c3f5d48062eb769fcb123505eb928722e3"
 
-"react-native-preview-transition@git+https://github.com/openGeeksLab/react-native-preview-transition.git":
-  version "0.0.0"
-  resolved "git+https://github.com/openGeeksLab/react-native-preview-transition.git#139dba10ed8f4d4d93c1ffcb5a2f942609248c43"
+react-native-preview-transition@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-preview-transition/-/react-native-preview-transition-1.0.0.tgz#07eb886d538642eec05341ab279ec9988a420edf"
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-vector-icons@^5.0.0:
   version "5.0.0"
