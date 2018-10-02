@@ -1,7 +1,7 @@
 {
   "name": "react-native-preview-transition",
   "version": "1.0.0",
-  "description": "",
+  "description": "Custom animation looks like table view. Written on JS for React-Native",
   "main": "src/index.js",
   "keywords": [
     "react",
@@ -10,7 +10,8 @@
     "preview-transition",
     "preview",
     "ios",
-    "android"
+    "android",
+    "openGeeksLab"
   ],
   "dependencies": {
     "prop-types": "^15.6.0"
